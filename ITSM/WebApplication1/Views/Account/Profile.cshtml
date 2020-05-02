@@ -1,0 +1,20 @@
+﻿@model WebApplication1.Models.UserProfile
+
+@{
+    Layout = "_Layout";
+}
+
+    <div class="text-center">
+        <a asp-action="Profile" asp-controller="Account" class="user-avatar user-avatar-xl"><img width="10%" height="10%" src="https://d19m59y37dris4.cloudfront.net/university/1-1-1/img/teacher-4.jpg" alt=""></a>
+        <h2 class="h4 mt-2 mb-0"> @Model?.Name </h2>
+        <h3 class="h5 mt-2 mb-0"> @Model?.Age y.o.</h3>
+        <div class="my-1">
+            <i class="fa fa-star text-yellow"></i> <i class="fa fa-star text-yellow"></i> <i class="fa fa-star text-yellow"></i> <i class="fa fa-star text-yellow"></i> <i class="far fa-star text-yellow"></i>
+        </div>
+        <p class="text-muted"> Support Specialist </p>
+    </div>
+<div class="profile mr-3 align-content-center">
+    <a asp-action="Edit" asp-controller="Account" asp-route-id="@Model?.UserId" class="btn btn-dark btn-sm btn-block">Edit profile</a>
+</div>
+
+

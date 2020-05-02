@@ -1,0 +1,28 @@
+﻿@model WebApplication1.ViewModels.TicketModel
+
+    <form class="form-signin" asp-action="Add" asp-controller="Ticket" asp-anti-forgery="true">
+        <img class="mb-4" src="~/img/sticker.webp" alt="" width="72" height="72">
+        <h1 class="h3 mb-3 font-weight-normal">Заполните заявку</h1>
+        <div class="validation" asp-validation-summary="ModelOnly" />
+        <div class="form-group">
+            <label class="sr-only" asp-for="ShortDescription">Краткое описание</label>
+            <input type="text" class="form-control" required="" asp-for="ShortDescription" />
+            <span asp-validation-for="ShortDescription" />
+        </div>
+        <div class="form-group">
+            <label class="sr-only" asp-for="Description">Описание проблемы</label>
+            <input type="text"class="form-control" required="" asp-for="Description" />
+            <span asp-validation-for="Description" />
+        </div>
+        <div class="form-group">
+            <label class="sr-only" asp-for="Priority">Приоритет</label>
+            <select class="list-group">
+                <option class="list-group-item">@Priority.Low</option>
+                <option class="list-group-item">@Priority.Medium</option>
+                <option class="list-group-item">@Priority.High</option>
+            </select>
+            <span asp-validation-for="Priority" />
+        </div>
+
+        <div class="form-group"><input class="btn btn-lg btn-primary btn-block" type="submit" value="Отправить"></div>
+    </form>

@@ -1,0 +1,17 @@
+﻿@model IEnumerable<WebApplication1.Models.Ticket>
+
+<div class="row mt-5 mb-2">
+    @{
+        foreach (var item in Model)
+        {
+            <div class="col-lg-4">
+                <a asp-action="MyTickets" asp-controller="Ticket" asp-route-id="@item.Id"><h1>Заявка #@item.Id</h1></a>
+                <p>Description: @item.ShortDescription</p>
+                <p>Priority: @item.Priority Status: @item.Status</p>
+            </div>
+        }
+
+
+    }
+    <span class="w-100"></span>
+</div>

@@ -1,0 +1,106 @@
+﻿@model WebApplication1.Models.Ticket
+
+@{
+    Layout = "AdminPageLayout";
+}
+
+
+    <div class="card mt-md-5">
+        <div class="card-header">
+            <h2 class="m-1">
+                Заявка #@Model.Id
+            </h2>
+        </div>
+        <div class="row mt-2 mb-2">
+            <div class="col">
+                <div id="accordion">
+                    <div class="card">
+                        <div class="card-header" id="headingOne">
+                            <h5 class="mb-0">
+                                <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                                    Детали запроса
+                                </button>
+                            </h5>
+                        </div>
+
+                        <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-4 m-2">Приоритет: @Model.Priority</div>
+                                    <div class="col-md-4 m-2">Статус: @Model.Status</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="accordionDescription">
+                    <div class="card">
+                        <div class="card-header" id="headingTwo">
+                            <h5 class="mb-0">
+                                <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                    Описание
+                                </button>
+                            </h5>
+                        </div>
+                        <div id="collapseTwo" class="collapse show" aria-labelledby="headingTwo" data-parent="#accordionDescription">
+                            <div class="card-body">
+                                @Model.ShortDescription
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div id="accordionPeople">
+                    <div class="card">
+                        <div class="card-header" id="headingThree">
+                            <h5 class="mb-0">
+                                <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                    Люди
+                                </button>
+                            </h5>
+                        </div>
+                        <div id="collapseThree" class="collapse show" aria-labelledby="headingThree" data-parent="#accordionPeople">
+                            <div class="card-body">
+                                <div id="specialist">
+                                    @if (Model.Specialist != null)
+                                    {
+                                        <p>Назначенный специалист:@Model.Specialist</p>
+                                    }
+                                    else
+                                    {
+                                        <p>Назначенный специалист: Не назначен</p>
+                                    }
+                                    @if (User.IsInRole("admin"))
+                                    {
+                                        <div class="dropdown show">
+                                            <a class="btn btn-secondary dropdown-toggle" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                Назначить специалиста
+                                            </a>
+
+                                            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                                <a class="dropdown-item" href="#">Action</a>
+                                                <a class="dropdown-item" href="#">Another action</a>
+                                                <a class="dropdown-item" href="#">Something else here</a>
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
+                                <div id="author">
+                                    @if (Model.User != null)
+                                    {
+                                        <p>Автор: @Model.User.Profile.Name</p>
+                                    }
+                                    else
+                                    {
+                                        <p>Автор: Каво?</p>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>

@@ -1,0 +1,26 @@
+﻿@model IEnumerable<Specialist>
+
+@{
+    Layout = "AdminPageLayout";
+    int counter = 1;
+}
+
+    <div class="row pb-5 mb-4">
+
+        @foreach (var item in Model)
+        {
+            <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
+                <!-- Card-->
+                <div class="card rounded shadow-sm border-0">
+                    <div class="card-body p-0">
+                        <div class="bg-primary px-5 py-4 text-center card-img-top">
+                            <img src="https://d19m59y37dris4.cloudfront.net/university/1-1-1/img/teacher-4.jpg" alt="..." width="100" class="rounded-circle mb-2 img-thumbnail d-block mx-auto">
+                            <h5 class="text-white mb-0">@item.Profile?.Name</h5>
+                            <p class="small text-white mb-0">@item.Role?.Name</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+
+    </div>

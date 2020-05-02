@@ -1,0 +1,12 @@
+﻿@model  WebApplication1.Models.Ticket
+
+<div class="w-75 align-content-around">
+    <h1>Заявка @Model.ShortDescription</h1>
+    <p>Автор @Model.User?.Email</p>
+    @if(Model.Specialist != null)
+    {
+        <p>Задача назначена на @Model.Specialist.Email</p>
+    }
+    <h1>Описание</h1>
+    <p>@Model.Description</p>
+</div>
