@@ -42,23 +42,27 @@ namespace WebApplication1.Controllers
             return View(ticket);
         }
 
-
-        [Route("Dashboard/AdminPanel/Register/SetProfile")]
+        [Route("Dashboard/AdminPanel/Register/SetProfile/{id?}")]
         [HttpGet]
-        public async Task<IActionResult> SetProfile(EditProfileModel model)
+        public async Task<IActionResult> SetProfile(int id)
         {
-            if (ModelState.IsValid)
+            var currentUser = await this.Context.Users.Where(u => u.Email == User.Identity.Name).Include(u => u.Role).FirstOrDefaultAsync();
+
+            var user = await this.Context.Users.Where(u => u.Id == id).Include(p => p.Profile).FirstOrDefaultAsync();
+            if (currentUser.Role?.Name == "admin" || currentUser.Role?.Name == "specialist")
             {
-                var profile = await this.UserProfile;
+                ViewData["Идентификатор"] = id;
+                ViewData["Имя пользователя"] = user.Profile?.Name;
+                ViewData["Возраст пользователя"] = user.Profile?.Age;
 
-                profile.Age = model.Age;
-                profile.Name = model.Name;
-
-                await this.Context.SaveChangesAsync();
-
-                return RedirectToAction("Profile", "Account", profile);
+                return View();
             }
-            return View();
+
+            else {
+                this.Context.Users.Remove(user);
+                await this.Context.SaveChangesAsync();
+                return RedirectToAction("Index", "Home");
+            }
         }
 
         [HttpGet]

@@ -70,6 +70,12 @@
                                 <!-- form row -->
 
                                 <div class="validation" asp-validation-summary="ModelOnly" />
+                                <!-- form row -->
+                                <div class="form-row">
+                                    <input asp-for="UserId" type="text" class="form-control" id="input02" value="@ViewData["Идентификатор"]" hidden>
+                                </div><!-- /form row -->
+
+                                <!-- form row -->
                                 <div class="form-row">
                                     <!-- form column -->
                                     <label asp-for="Name" for="input02" class="col-md-3">Name</label> <!-- /form column -->

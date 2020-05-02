@@ -8,6 +8,9 @@ namespace WebApplication1.ViewModels
 {
     public class EditProfileModel
     {
+        
+        public int UserId { get; set; }
+
         public string Name { get; set; }
 
         public int Age { get; set; }

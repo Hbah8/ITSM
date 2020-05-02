@@ -33,15 +33,6 @@ namespace WebApplication1.Controllers
         {
             var user = await db.Users.Where(u => u.Email == User.Identity.Name).Include(u => u.Profile).FirstOrDefaultAsync();
 
-            if(user.Profile == null)
-            {
-                var profile = new UserProfile();
-                this.Context.Add(profile);
-
-                user.Profile = profile;
-                await this.Context.SaveChangesAsync();
-            }
-
             return user.Profile;
         }
     }
