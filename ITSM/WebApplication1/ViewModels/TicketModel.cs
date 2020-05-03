@@ -20,6 +20,8 @@ namespace WebApplication1.ViewModels
         [Required(ErrorMessage = "Укажите приоритет")]
         public Priority Priority { get; set; }
 
+        public Specialist Specialist { get; set; }
+
 
     }
 }

@@ -37,7 +37,12 @@ namespace WebApplication1.Controllers
         [HttpGet]
         public async Task<IActionResult> Ticket(int id)
         {
-            Ticket ticket = await this.Context.Tickets.Where(u => u.Id == id).FirstOrDefaultAsync();
+            Ticket ticket = await this.Context.Tickets.
+                Where(u => u.Id == id).
+                Include(s => s.Specialist).
+                FirstOrDefaultAsync();
+
+            ticket.Specialist.Profile = await this.Context.Profiles.Where(p => p.UserId == ticket.SpecialistId).FirstOrDefaultAsync();
 
             return View(ticket);
         }
@@ -63,6 +68,44 @@ namespace WebApplication1.Controllers
                 await this.Context.SaveChangesAsync();
                 return RedirectToAction("Index", "Home");
             }
+        }
+
+        [Authorize(Roles = "admin")]
+        [HttpGet]
+        [Route("Dashboard/AdminPanel/Ticket/Assign/{id?}")]
+        public async Task<IActionResult> Assign(int ticketId)
+        {
+            ViewData["Заявка"] = ticketId;
+
+            var specialists = await this.Context.Users.Where(r => r.Role.Name == "specialist").Cast<Specialist>().ToListAsync();
+
+            return View(specialists);
+        }
+
+        [Authorize(Roles = "admin")]
+        [HttpPost]
+        [Route("Dashboard/AdminPanel/Ticket/Assign/{id?}/{specialistId?}")]
+        public async Task<IActionResult> AssignSave(int id, int specialistId)
+        {
+            var ticket = await this.Context.Tickets.Where(t => t.Id == id).FirstOrDefaultAsync();
+
+            if(ticket != null)
+            {
+                ticket.SpecialistId = specialistId;
+                ticket.Specialist = await this.Context.Users.
+                    Where(u => u.Id == specialistId && u.Role.Name == "specialist").
+                    FirstOrDefaultAsync() as Specialist;
+
+                await this.Context.SaveChangesAsync();
+
+                
+            }
+            else
+            {
+                ModelState.AddModelError("Ашибка", "Ашибка: не получаеца назначить челикслава");
+            }
+
+            return RedirectToAction("Ticket", "Dashboard", new { id });
         }
 
         [HttpGet]
