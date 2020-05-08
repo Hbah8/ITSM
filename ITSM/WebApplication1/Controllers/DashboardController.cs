@@ -39,10 +39,10 @@ namespace WebApplication1.Controllers
         {
             Ticket ticket = await this.Context.Tickets.
                 Where(u => u.Id == id).
-                Include(s => s.Specialist).
+                Include(s => s.Specialist.Profile).
                 FirstOrDefaultAsync();
 
-            ticket.Specialist.Profile = await this.Context.Profiles.Where(p => p.UserId == ticket.SpecialistId).FirstOrDefaultAsync();
+            ViewData["Специалисты"] = await this.Context.Profiles.Where(p => p.UserId == ticket.SpecialistId).FirstOrDefaultAsync();
 
             return View(ticket);
         }
@@ -77,7 +77,7 @@ namespace WebApplication1.Controllers
         {
             ViewData["Заявка"] = ticketId;
 
-            var specialists = await this.Context.Users.Where(r => r.Role.Name == "specialist").Cast<Specialist>().ToListAsync();
+            var specialists = await this.Context.Specialists.Where(r => r.Role.Name == "specialist").ToListAsync();
 
             return View(specialists);
         }
@@ -94,6 +94,7 @@ namespace WebApplication1.Controllers
                 ticket.SpecialistId = specialistId;
                 ticket.Specialist = await this.Context.Users.
                     Where(u => u.Id == specialistId && u.Role.Name == "specialist").
+                    Include(p => p.Profile).
                     FirstOrDefaultAsync() as Specialist;
 
                 await this.Context.SaveChangesAsync();
@@ -108,10 +109,13 @@ namespace WebApplication1.Controllers
             return RedirectToAction("Ticket", "Dashboard", new { id });
         }
 
+        [Route("Dashboard/AdminPanel/InProgress")]
         [HttpGet]
-        public IActionResult Denied()
+        public async Task<IActionResult> InProgress()
         {
-            return View();
+            List<Ticket> ticketsInProgress = await this.Context.Tickets.Where(u => u.Specialist != null).ToListAsync();
+
+            return View(ticketsInProgress);
         }
     }
 }

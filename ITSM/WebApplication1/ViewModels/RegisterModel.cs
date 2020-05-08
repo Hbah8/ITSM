@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using WebApplication1.Models;
 
 namespace WebApplication1.ViewModels
 {
@@ -10,6 +11,9 @@ namespace WebApplication1.ViewModels
     {
         [Required(ErrorMessage = "Не указан Email")]
         public string Email { get; set; }
+
+        [Required(ErrorMessage = "Не указана роль")]
+        public string Role { get; set; }
 
         [Required(ErrorMessage = "Не указан пароль")]
         [DataType(DataType.Password)]

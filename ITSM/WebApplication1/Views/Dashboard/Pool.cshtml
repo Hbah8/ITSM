@@ -20,9 +20,9 @@
                         <li>Priority @item.Priority</li>
                         <li>Status @item.Status</li>
                         <li>
-                            Specialist @if (item.Specialist != null)
+                            Specialist @if (item.Specialist?.Profile != null)
                             {
-                                <p>@item.Specialist</p>
+                                <a asp-action="Profile" asp-controller="Account" asp-route-id="@item.Specialist.Id">@item.Specialist.Profile.Name</a>
                             }
                             else
                             {

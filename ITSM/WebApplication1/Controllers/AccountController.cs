@@ -79,16 +79,13 @@ namespace WebApplication1.Controllers
                     User user = await this.Context.Users.FirstOrDefaultAsync(u => u.Email == model.Email);
                     if (user == null)
                     {
-                        // добавляем пользователя в бд
-                        Role userRole = await this.Context.Roles.FirstOrDefaultAsync(r => r.Name == "user");
-
                         this.Context.Users.Add(
                             new User
                             {
                                 Email = model.Email,
                                 Password = model.Password,
-                                Role = userRole
-                            });
+                                Role = await this.Context.Roles.FirstOrDefaultAsync(r => r.Name == model.Role)
+                    });
 
                         await this.Context.SaveChangesAsync();
 

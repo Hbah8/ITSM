@@ -1,0 +1,41 @@
+﻿@model IEnumerable<Ticket>
+
+@{
+    Layout = "AdminPageLayout";
+}
+
+@if (Model != null)
+{
+    <div class="row mt-5 mb-2">
+        @foreach (var item in Model)
+        {
+            <div class="col-md-4">
+                <div class="card mb-4 box-shadow">
+                    <div class="card-header">
+                        <h4 class="my-0 font-weight-normal"><a class="link" asp-action="Ticket" asp-controller="Dashboard" asp-route-id="@item.Id">Заявка №@item.Id</a></h4>
+                    </div>
+                    <div class="card-body">
+                        <ul class="list-unstyled mt-3 mb-4">
+                            <li>Priority @item.Priority</li>
+                            <li>Status @item.Status</li>
+                            <li>
+                                Specialist @if (item.Specialist != null)
+                                {
+                                    <p>@item.Specialist</p>
+                                }
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+        }
+    </div>
+}
+else
+{
+    <div class="starter-template">
+        <h1>Здесь должны быть назначенные заявки</h1>
+        <p class="lead">Так вышло что их нет :)</p>
+    </div>
+}
