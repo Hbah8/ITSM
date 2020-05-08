@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Specialist>
+﻿@model List<Specialist>
 
 @{
     Layout = "AdminPageLayout";
@@ -17,6 +17,9 @@
                             <img src="https://d19m59y37dris4.cloudfront.net/university/1-1-1/img/teacher-4.jpg" alt="..." width="100" class="rounded-circle mb-2 img-thumbnail d-block mx-auto">
                             <h5 class="text-white mb-0">@item.Profile?.Name</h5>
                             <p class="small text-white mb-0">@item.Role?.Name</p>
+                            <form method="post" asp-action="AssignSave" asp-controller="Dashboard" asp-route-id="@ViewData["Заявка"]" asp-route-specialistId="@item.Id">
+                                <div class="form-group"><input class="btn btn-lg btn-primary btn-block" type="submit" value="Назначить"></div>
+                            </form>
                         </div>
                     </div>
                 </div>

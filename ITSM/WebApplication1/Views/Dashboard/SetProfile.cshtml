@@ -57,6 +57,12 @@
                             <form method="post" asp-action="Save" asp-controller="Account" asp-antiforgery="true">
                                 <!-- form row -->
                                 <div class="form-row">
+                                    <input asp-for="UserId" type="text" class="form-control" id="input02" value="@ViewData["Идентификатор"]" hidden>
+                                </div><!-- /form row -->
+                                <!-- form row -->
+
+                                <!-- form row -->
+                                <div class="form-row">
                                     <!-- form column -->
                                     <label for="input01" class="col-md-3">Cover image</label> <!-- /form column -->
                                     <!-- form column -->

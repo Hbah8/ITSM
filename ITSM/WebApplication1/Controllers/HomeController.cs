@@ -22,7 +22,7 @@ namespace WebApplication1.Controllers
         [Authorize]
         public IActionResult Index()
         {
-            if(User.IsInRole("admin"))
+            if (User.IsInRole("admin"))
                 return RedirectToAction("AdminPanel", "Dashboard");
 
             return View();

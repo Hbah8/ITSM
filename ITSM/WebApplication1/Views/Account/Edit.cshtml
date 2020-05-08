@@ -26,7 +26,7 @@
                     <div class="card card-fluid">
                         <h6 class="card-header"> Your Details </h6><!-- .nav -->
                         <nav class="nav nav-tabs flex-column border-0">
-                            <a href="user-profile-settings.html" class="nav-link active">Profile</a> <a href="user-account-settings.html" class="nav-link">Account</a> <a href="user-billing-settings.html" class="nav-link">Billing</a> <a href="user-notification-settings.html" class="nav-link">Notifications</a>
+                            <a href="user-profile-settings.html" class="nav-link active">Profile</a> 
                         </nav><!-- /.nav -->
                     </div><!-- /.card -->
                 </div><!-- /grid column -->
@@ -70,6 +70,12 @@
                                 <!-- form row -->
 
                                 <div class="validation" asp-validation-summary="ModelOnly" />
+                                <!-- form row -->
+                                <div class="form-row">
+                                    <input asp-for="UserId" type="text" class="form-control" id="input02" value="@ViewData["Идентификатор"]" hidden>
+                                </div><!-- /form row -->
+
+                                <!-- form row -->
                                 <div class="form-row">
                                     <!-- form column -->
                                     <label asp-for="Name" for="input02" class="col-md-3">Name</label> <!-- /form column -->

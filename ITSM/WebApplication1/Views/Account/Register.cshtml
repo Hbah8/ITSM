@@ -6,27 +6,46 @@
 }
 
 <h2>Регистрация</h2>
+<div class="row">
+    <div class="col-md-4">
 
-<form asp-action="Register" asp-controller="Account" asp-anti-forgery="true">
-    <div class="validation" asp-validation-summary="ModelOnly" />
-    <div>
-        <div>
-            <label asp-for="Email">Введите Email</label><br />
-            <input type="text" asp-for="Email" />
-            <span asp-validation-for="Email" />
-        </div>
-        <div>
-            <label asp-for="Password">Введите пароль</label><br />
-            <input asp-for="Password" />
-            <span asp-validation-for="Password" />
-        </div>
-        <div>
-            <label asp-for="ConfirmPassword">Повторите пароль</label><br />
-            <input asp-for="ConfirmPassword" />
-            <span asp-validation-for="ConfirmPassword" />
-        </div>
-        <div>
-            <input type="submit" value="Регистрация" />
-        </div>
     </div>
-</form>
+
+    <div class="col-md-4">
+        <form method="post" asp-action="Register" asp-controller="Account" asp-anti-forgery="true">
+            <div class="validation" asp-validation-summary="ModelOnly" />
+            <div>
+                <div class="form-group w-100">
+                    <label asp-for="Email">Введите Email</label><br />
+                    <input class="form-control" type="text" asp-for="Email" />
+                    <span asp-validation-for="Email" />
+                </div>
+                <div class="form-group w-100">
+                    <label asp-for="Role">Введите роль</label><br />
+                    <select asp-for="Role" class="custom-select d-block" id="country" required="">
+                        <option value="">user</option>
+                        <option>specialist</option>
+                    </select>
+                    <span asp-validation-for="Role" />
+                </div>
+                <div class="form-group w-100">
+                    <label asp-for="Password">Введите пароль</label><br />
+                    <input class="form-control" asp-for="Password" />
+                    <span asp-validation-for="Password" />
+                </div>
+                <div class="form-group w-100">
+                    <label asp-for="ConfirmPassword">Повторите пароль</label><br />
+                    <input class="form-control" asp-for="ConfirmPassword" />
+                    <span asp-validation-for="ConfirmPassword" />
+                </div>
+                <div class="form-group">
+                    <input class="btn-dark" type="submit" value="Регистрация" />
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="col-md-4">
+
+    </div>
+</div>
+

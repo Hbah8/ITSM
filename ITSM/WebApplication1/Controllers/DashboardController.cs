@@ -37,34 +37,85 @@ namespace WebApplication1.Controllers
         [HttpGet]
         public async Task<IActionResult> Ticket(int id)
         {
-            Ticket ticket = await this.Context.Tickets.Where(u => u.Id == id).FirstOrDefaultAsync();
+            Ticket ticket = await this.Context.Tickets.
+                Where(u => u.Id == id).
+                Include(s => s.Specialist.Profile).
+                FirstOrDefaultAsync();
+
+            ViewData["Специалисты"] = await this.Context.Profiles.Where(p => p.UserId == ticket.SpecialistId).FirstOrDefaultAsync();
 
             return View(ticket);
         }
 
-
-        [Route("Dashboard/AdminPanel/Register/SetProfile")]
+        [Route("Dashboard/AdminPanel/Register/SetProfile/{id?}")]
         [HttpGet]
-        public async Task<IActionResult> SetProfile(EditProfileModel model)
+        public async Task<IActionResult> SetProfile(int id)
         {
-            if (ModelState.IsValid)
-            {
-                var profile = await this.UserProfile;
+            var currentUser = await this.Context.Users.Where(u => u.Email == User.Identity.Name).Include(u => u.Role).FirstOrDefaultAsync();
 
-                profile.Age = model.Age;
-                profile.Name = model.Name;
+            var user = await this.Context.Users.Where(u => u.Id == id).Include(p => p.Profile).FirstOrDefaultAsync();
+            if (currentUser.Role?.Name == "admin" || currentUser.Role?.Name == "specialist")
+            {
+                ViewData["Идентификатор"] = id;
+                ViewData["Имя пользователя"] = user.Profile?.Name;
+                ViewData["Возраст пользователя"] = user.Profile?.Age;
+
+                return View();
+            }
+
+            else {
+                this.Context.Users.Remove(user);
+                await this.Context.SaveChangesAsync();
+                return RedirectToAction("Index", "Home");
+            }
+        }
+
+        [Authorize(Roles = "admin")]
+        [HttpGet]
+        [Route("Dashboard/AdminPanel/Ticket/Assign/{id?}")]
+        public async Task<IActionResult> Assign(int ticketId)
+        {
+            ViewData["Заявка"] = ticketId;
+
+            var specialists = await this.Context.Specialists.Where(r => r.Role.Name == "specialist").ToListAsync();
+
+            return View(specialists);
+        }
+
+        [Authorize(Roles = "admin")]
+        [HttpPost]
+        [Route("Dashboard/AdminPanel/Ticket/Assign/{id?}/{specialistId?}")]
+        public async Task<IActionResult> AssignSave(int id, int specialistId)
+        {
+            var ticket = await this.Context.Tickets.Where(t => t.Id == id).FirstOrDefaultAsync();
+
+            if(ticket != null)
+            {
+                ticket.SpecialistId = specialistId;
+                ticket.Specialist = await this.Context.Users.
+                    Where(u => u.Id == specialistId && u.Role.Name == "specialist").
+                    Include(p => p.Profile).
+                    FirstOrDefaultAsync() as Specialist;
 
                 await this.Context.SaveChangesAsync();
 
-                return RedirectToAction("Profile", "Account", profile);
+                
             }
-            return View();
+            else
+            {
+                ModelState.AddModelError("Ашибка", "Ашибка: не получаеца назначить челикслава");
+            }
+
+            return RedirectToAction("Ticket", "Dashboard", new { id });
         }
 
+        [Route("Dashboard/AdminPanel/InProgress")]
         [HttpGet]
-        public IActionResult Denied()
+        public async Task<IActionResult> InProgress()
         {
-            return View();
+            List<Ticket> ticketsInProgress = await this.Context.Tickets.Where(u => u.Specialist != null).ToListAsync();
+
+            return View(ticketsInProgress);
         }
     }
 }

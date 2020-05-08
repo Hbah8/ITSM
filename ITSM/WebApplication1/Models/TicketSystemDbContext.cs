@@ -10,6 +10,8 @@ namespace WebApplication1.Models
     {
         public DbSet<User> Users { get; set; }
 
+        public DbSet<Specialist> Specialists { get; set; }
+
         public DbSet<UserProfile> Profiles { get; set; }
 
         public DbSet<Role> Roles { get; set; }

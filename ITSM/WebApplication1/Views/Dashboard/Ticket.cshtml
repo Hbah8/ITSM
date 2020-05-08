@@ -65,7 +65,7 @@
                                 <div id="specialist">
                                     @if (Model.Specialist != null)
                                     {
-                                        <p>Назначенный специалист:@Model.Specialist</p>
+                                        <p>Назначенный специалист:@Model.Specialist.Profile?.Name</p>
                                     }
                                     else
                                     {
@@ -73,23 +73,15 @@
                                     }
                                     @if (User.IsInRole("admin"))
                                     {
-                                        <div class="dropdown show">
-                                            <a class="btn btn-secondary dropdown-toggle" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                Назначить специалиста
-                                            </a>
-
-                                            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                                <a class="dropdown-item" href="#">Action</a>
-                                                <a class="dropdown-item" href="#">Another action</a>
-                                                <a class="dropdown-item" href="#">Something else here</a>
-                                            </div>
-                                        </div>
+                                        <a class="btn btn-secondary dropdown-toggle" role="button" asp-action="Assign" asp-controller="Dashboard" asp-route-ticketId="@Model.Id">
+                                            Назначить специалиста
+                                        </a>
                                     }
                                 </div>
                                 <div id="author">
                                     @if (Model.User != null)
                                     {
-                                        <p>Автор: @Model.User.Profile.Name</p>
+                                        <p>Автор: @Model.User.Profile?.Name</p>
                                     }
                                     else
                                     {

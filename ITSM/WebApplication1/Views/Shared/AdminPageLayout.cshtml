@@ -17,11 +17,11 @@
     <link rel="canonical" href="https://getbootstrap.com/docs/4.4/examples/dashboard/">
 
     <!-- Bootstrap core CSS -->
-    <link href="~/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link href="~/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
     <meta name="theme-color" content="#563d7c">
 
     <!-- Custom styles for this template -->
-    <link href="dashboard.css" rel="stylesheet">
+    <link href="~/css/dashboard.css" rel="stylesheet">
 
 </head>
 <body>
@@ -48,13 +48,13 @@
                         <li class="nav-item">
                             <a class="nav-link active" asp-action="AdminPanel" asp-controller="Dashboard" asp-route-id="Pool">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-home"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
-                                Текущие заявки <span class="sr-only">(current)</span>
+                                Неназначенные задачи <span class="sr-only">(current)</span>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link active" asp-action="AdminPanel" asp-controller="Dashboard" asp-route-id="Pool">
+                            <a class="nav-link active" asp-action="AdminPanel" asp-controller="Dashboard" asp-route-id="InProgress">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-home"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
-                                Назначить специалиста <span class="sr-only">(current)</span>
+                                Текущие задачи <span class="sr-only">(current)</span>
                             </a>
                         </li>
                     </ul>
@@ -65,12 +65,12 @@
             </main>
         </div>
     </div>
-    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" crossorigin="anonymous"></script>
     <script>window.jQuery || document.write('<script src="/docs/4.4/assets/js/vendor/jquery.slim.min.js"><\/script>')</script>
-    <script src="~/js/bootstrap.bundle.min.js" integrity="sha384-6khuMg9gaYr5AxOqhkVIODVIvm9ynTT5J4V1cfthmT+emCG6yVmEZsRHdxlotUnm" crossorigin="anonymous"></script>
+    <script src="~/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.9.0/feather.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js"></script>
-    <script src="dashboard.js"></script>
+    <script src="~/js/dashboard.js"></script>
 
     <div id="wt-sky-root"></div>
 </body>

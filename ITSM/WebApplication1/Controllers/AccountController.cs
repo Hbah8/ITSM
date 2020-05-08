@@ -79,26 +79,28 @@ namespace WebApplication1.Controllers
                     User user = await this.Context.Users.FirstOrDefaultAsync(u => u.Email == model.Email);
                     if (user == null)
                     {
-                        // добавляем пользователя в бд
-                        Role userRole = await this.Context.Roles.FirstOrDefaultAsync(r => r.Name == "user");
-                        UserProfile profile = new UserProfile()
-                        {
-                            Name = "new user"
-                        };
-
-                        this.Context.Profiles.Add(profile);
                         this.Context.Users.Add(
                             new User
                             {
                                 Email = model.Email,
                                 Password = model.Password,
-                                Role = userRole,
-                                Profile = profile
-                            });
+                                Role = await this.Context.Roles.FirstOrDefaultAsync(r => r.Name == model.Role)
+                    });
 
                         await this.Context.SaveChangesAsync();
 
-                        return RedirectToAction("Edit", "Account");
+                        User newUser = await this.Context.Users.Where(u => u.Email == model.Email).FirstOrDefaultAsync();
+                        UserProfile profile = new UserProfile()
+                        {
+                            Name = "new user",
+                            UserId = newUser.Id
+                        };
+
+                        this.Context.Profiles.Add(profile);
+
+                        await this.Context.SaveChangesAsync();
+
+                        return RedirectToAction("SetProfile", "Dashboard", new { id = newUser.Id });
                     }
                     else
                         ModelState.AddModelError("", "Некорректные логин и(или) пароль");
@@ -143,16 +145,17 @@ namespace WebApplication1.Controllers
         }
 
         
-        [Route("Account/Profile/{id?}/Edit")]
+        [Route("Account/Profile/Edit/{id?}")]
         [HttpGet]
         public async Task<IActionResult> Edit(int id)
         {
-            var currentUser = await this.Context.Users.Where(u => u.Email == User.Identity.Name).FirstOrDefaultAsync();
+            var currentUser = await this.Context.Users.Where(u => u.Email == User.Identity.Name).Include(u => u.Role).FirstOrDefaultAsync();
 
-            if (currentUser.Id == id || currentUser.Role.Name == "admin" || currentUser.Role.Name == "specialist")
+            if (currentUser.Role?.Name == "admin" || currentUser.Role?.Name == "specialist" || currentUser.Id == id)
             {
-                var profile = await this.UserProfile;
+                var profile = await this.Context.Profiles.Where(u => u.UserId == id).FirstOrDefaultAsync();
 
+                ViewData["Идентификатор"] = id;
                 ViewData["Имя пользователя"] = profile?.Name;
                 ViewData["Возраст пользователя"] = profile?.Age;
 
@@ -163,7 +166,6 @@ namespace WebApplication1.Controllers
                 return RedirectToAction("Index", "Home");
         }
 
-
         [Route("Account/Profile/Edit/Save")]
         [HttpPost]
         [ValidateAntiForgeryToken]  
@@ -171,14 +173,14 @@ namespace WebApplication1.Controllers
         {
             if (ModelState.IsValid)
             {
-                var profile = await this.UserProfile;
+                var profile = await this.Context.Profiles.Where(u => u.UserId == model.UserId).FirstOrDefaultAsync();
 
                 profile.Age = model.Age;
                 profile.Name = model.Name;
 
                 await this.Context.SaveChangesAsync();
 
-                return RedirectToAction("Profile", profile);
+                return RedirectToAction("Profile", new { id = profile.UserId });
             }
             return View();
         }
